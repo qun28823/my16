@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="sort-only" default-locale="en-US">
+  <info>
+    <title>IJCAI (Author-Date)</title>
+    <title-short>IJCAI</title-short>
+    <id>http://www.zotero.org/styles/ijcai-author-date</id>
+    <link href="http://www.zotero.org/styles/ijcai-author-date" rel="self"/>
+    <link href="https://2026.ijcai.org/" rel="documentation"/>
+    <author>
+      <name>Custom</name>
+    </author>
+    <category citation-format="author-date"/>
+    <category field="computer-science"/>
+    <summary>IJCAI citation style: [Author et al., Year] with italic et al.</summary>
+    <updated>2025-01-06T00:00:00+00:00</updated>
+    <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+  </info>
+  
+  <locale xml:lang="en">
+    <terms>
+      <term name="no date">n.d.</term>
+      <term name="et-al">et al.</term>
+    </terms>
+  </locale>
+  
+  <!-- Author short form for citation label [Author et al., Year] -->
+  <macro name="author-short">
+    <names variable="author">
+      <name form="short" and="text" delimiter=", " delimiter-precedes-last="never"/>
+      <et-al font-style="italic"/>
+      <substitute>
+        <names variable="editor"/>
+        <names variable="translator"/>
+        <text variable="title" form="short"/>
+      </substitute>
+    </names>
+  </macro>
+  
+  <!-- Full author names for bibliography entry -->
+  <macro name="author-full">
+    <names variable="author">
+      <name and="text" delimiter=", " delimiter-precedes-last="always" name-as-sort-order="first"/>
+      <substitute>
+        <names variable="editor">
+          <name and="text" delimiter=", " delimiter-precedes-last="always" name-as-sort-order="first"/>
+          <label form="short" prefix=", "/>
+        </names>
+        <names variable="translator"/>
+      </substitute>
+    </names>
+  </macro>
+  
+  <!-- Year macro -->
+  <macro name="year">
+    <choose>
+      <if variable="issued">
+        <date variable="issued">
+          <date-part name="year"/>
+        </date>
+        <text variable="year-suffix"/>
+      </if>
+      <else>
+        <text term="no date"/>
+        <text variable="year-suffix"/>
+      </else>
+    </choose>
+  </macro>
+  
+  <!-- Year for sorting -->
+  <macro name="year-sort">
+    <choose>
+      <if variable="issued">
+        <date variable="issued">
+          <date-part name="year"/>
+        </date>
+      </if>
+    </choose>
+  </macro>
+  
+  <!-- Title macro -->
+  <macro name="title">
+    <choose>
+      <if type="book thesis report" match="any">
+        <text variable="title" font-style="italic"/>
+      </if>
+      <else>
+        <text variable="title"/>
+      </else>
+    </choose>
+  </macro>
+  
+  <!-- Container (for chapters, articles, conference papers) -->
+  <macro name="container">
+    <choose>
+      <if type="chapter paper-conference" match="any">
+        <group delimiter=", ">
+          <group delimiter=" ">
+            <text term="in" text-case="capitalize-first"/>
+            <text variable="container-title" font-style="italic"/>
+          </group>
+          <text macro="pages"/>
+          <text macro="event-place"/>
+          <text macro="event-date"/>
+          <text variable="publisher"/>
+        </group>
+      </if>
+      <else-if type="article-journal" match="any">
+        <group delimiter=", ">
+          <text variable="container-title" font-style="italic"/>
+          <group>
+            <text variable="volume"/>
+            <text variable="issue" prefix="(" suffix=")"/>
+          </group>
+          <text macro="pages"/>
+          <text macro="article-date"/>
+        </group>
+      </else-if>
+      <else-if type="article-magazine article-newspaper" match="any">
+        <group delimiter=", ">
+          <text variable="container-title" font-style="italic"/>
+          <text macro="pages"/>
+          <text macro="article-date"/>
+        </group>
+      </else-if>
+    </choose>
+  </macro>
+  
+  <!-- Pages -->
+  <macro name="pages">
+    <choose>
+      <if variable="page">
+        <group delimiter=" ">
+          <label variable="page" form="short"/>
+          <text variable="page"/>
+        </group>
+      </if>
+    </choose>
+  </macro>
+  
+  <!-- Event place for conference papers -->
+  <macro name="event-place">
+    <choose>
+      <if variable="event-place">
+        <text variable="event-place"/>
+      </if>
+      <else-if variable="publisher-place">
+        <text variable="publisher-place"/>
+      </else-if>
+    </choose>
+  </macro>
+  
+  <!-- Event date for conference papers -->
+  <macro name="event-date">
+    <choose>
+      <if type="paper-conference" match="any">
+        <date variable="issued">
+          <date-part name="month" suffix=" "/>
+          <date-part name="year"/>
+        </date>
+      </if>
+    </choose>
+  </macro>
+  
+  <!-- Article date (month-range year) -->
+  <macro name="article-date">
+    <choose>
+      <if type="article-journal article-magazine article-newspaper" match="any">
+        <date variable="issued">
+          <date-part name="month" suffix=" "/>
+          <date-part name="year"/>
+        </date>
+      </if>
+    </choose>
+  </macro>
+  
+  <!-- Publisher info for books -->
+  <macro name="publisher">
+    <choose>
+      <if type="book thesis report" match="any">
+        <group delimiter=", ">
+          <text variable="publisher"/>
+          <text variable="publisher-place"/>
+        </group>
+      </if>
+    </choose>
+  </macro>
+  
+  <!-- Year at end for books -->
+  <macro name="year-end">
+    <choose>
+      <if type="book thesis report" match="any">
+        <date variable="issued">
+          <date-part name="year"/>
+        </date>
+      </if>
+    </choose>
+  </macro>
+  
+  <!-- Edition -->
+  <macro name="edition">
+    <choose>
+      <if is-numeric="edition">
+        <group delimiter=" ">
+          <number variable="edition" form="ordinal"/>
+          <text term="edition" form="short"/>
+        </group>
+      </if>
+      <else>
+        <text variable="edition"/>
+      </else>
+    </choose>
+  </macro>
+  
+  <!-- Citation (in-text): [Author et al., Year] -->
+  <citation et-al-min="3" et-al-use-first="1" disambiguate-add-year-suffix="true" disambiguate-add-names="true" disambiguate-add-givenname="true" collapse="year">
+    <sort>
+      <key macro="author-short"/>
+      <key macro="year-sort"/>
+    </sort>
+    <layout prefix="[" suffix="]" delimiter="; ">
+      <group delimiter=", ">
+        <text macro="author-short"/>
+        <text macro="year"/>
+      </group>
+      <group prefix=", ">
+        <label variable="locator" form="short" suffix=" "/>
+        <text variable="locator"/>
+      </group>
+    </layout>
+  </citation>
+  
+  <!-- Bibliography: [Author et al., Year] Full Names. Title. Publisher, Place, Year. -->
+  <bibliography hanging-indent="true" et-al-min="3" et-al-use-first="1" entry-spacing="0">
+    <sort>
+      <key macro="author-short"/>
+      <key macro="year-sort"/>
+      <key variable="title"/>
+    </sort>
+    <layout suffix=".">
+      <!-- Label part: [Author et al., Year] -->
+      <text macro="author-short" prefix="[" suffix=", "/>
+      <text macro="year" suffix="] "/>
+      <!-- Main entry part -->
+      <group delimiter=". ">
+        <text macro="author-full"/>
+        <text macro="title"/>
+        <text macro="edition"/>
+        <text macro="container"/>
+        <group delimiter=", ">
+          <text macro="publisher"/>
+          <text macro="year-end"/>
+        </group>
+      </group>
+    </layout>
+  </bibliography>
+</style>
